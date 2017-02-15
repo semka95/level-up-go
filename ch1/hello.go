@@ -2,6 +2,19 @@ package main
 
 import "fmt"
 
+//Movie aaa
+type Movie struct {
+	Actors      []string
+	Rating      float32
+	ReleaseYear int
+	Title       string
+}
+
+// Counter aaaa
+type Counter struct {
+	Count int
+}
+
 func main() {
 	fmt.Println("Hello World")
 
@@ -78,6 +91,42 @@ func main() {
 	// functions
 	a, b := oneParamTwoReturns(3)
 	fmt.Println(a, b)
+
+	// pointers
+	fruit := "banana"
+	giveMePear(fruit)
+	fmt.Println(fruit)
+
+	giveMeFruitP(&fruit)
+	fmt.Println(fruit)
+
+	// structs
+	episodeTV := Movie{
+		Title:       "Star Wars: A New Hope",
+		Rating:      5.0,
+		ReleaseYear: 1977,
+	}
+
+	episodeTV.Actors = []string{
+		"Mark Hamill",
+		"Harrison Ford",
+		"Carrie Fisher",
+	}
+	fmt.Println(episodeTV.Title, "has a rating of", episodeTV.Rating)
+
+	// type methods
+	episodeV := Movie{
+		Title:       "Star Wars: The Empire Strikes Back",
+		ReleaseYear: 1980,
+	}
+	fmt.Println(episodeV.DisplayTitle())
+
+	counter := &Counter{}
+	fmt.Println(counter.Count)
+	counter.Increment()
+	fmt.Println(counter.Count)
+	counter.IncrementWithPointer()
+	fmt.Println(counter.Count)
 }
 
 // functions
@@ -96,4 +145,43 @@ func oneParamTwoReturns(myInt int) (string, int) {
 func twoSameTypedParams(myStr1, myStr2 string) {
 	fmt.Println("String 1: ", myStr1)
 	fmt.Println("String 2: ", myStr2)
+}
+
+func giveMePear(fruit string) {
+	fruit = "pear"
+}
+
+func giveMeFruitP(fruit *string) {
+	*fruit = "pear"
+}
+
+// DisplayTitle aaa
+func (movie Movie) DisplayTitle() string {
+	return fmt.Sprintf("%s (%d)", movie.Title, movie.ReleaseYear)
+}
+
+// Increment aaa
+func (c Counter) Increment() {
+	c.Count++
+}
+
+// IncrementWithPointer aaa
+func (c *Counter) IncrementWithPointer() {
+	c.Count++
+}
+
+// exported and unexported code
+func myUnexportedFunc() {
+
+}
+
+// MyExportedFunc aaa
+func MyExportedFunc() {
+
+}
+
+// MyExportedType aaa
+type MyExportedType struct {
+	ExportedField   string
+	unexportedField string
 }
